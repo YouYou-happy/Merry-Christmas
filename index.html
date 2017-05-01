@@ -5,32 +5,80 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <title>圣诞主题</title>
     <style type="text/css">
-    .container {
-        width: 200px;
-        height: 260px;
-        position: relative;
-        -webkit-perspective: 700px;
-        -webkit-transform-style: preserve-3d;
-        -moz-perspective: 700px;
-        -moz-transform-style: preserve-3d;
-    }
-    
-    #card {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        -webkit-transform: rotateY(70deg);
-        -moz-transform: rotateY(70deg);
-        background-color: red;
-    }
+
     </style>
+    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.js"></script>
 </head>
 
 <body>
-    <section class="container">
-        <div id="card">
-        </div>
-    </section>
+    显示结果：<p class="container"></p>
+    <button>嵌套回调异步</button>
+    <button>$.Deferred异步</button>
+    <script type="text/javascript">
+    $("button:first").on("click", function() {
+        //模拟异步A
+        function A(callback) {
+            setTimeout(function() {
+                callback(1)
+            }, 500)
+        }
+        //模拟异步A
+        function B(callback, value) {
+            setTimeout(function() {
+                callback(value + 2)
+            }, 1000)
+        }
+        //A执行完毕后，在执行B
+        A(function(data1) {
+            B(function(data2) {
+                $(".container").html("嵌套异步:" + data2)
+            }, data1)
+        })
+    })
+
+
+
+    $("button:last").on("click", function() {
+        // $.Deferred改造
+        // 
+        // 
+        //模拟异步C
+        function C() {
+            var dtd = $.Deferred(); //创建
+            setTimeout(function() {
+                dtd.resolve(3)
+            }, 500)
+            return dtd;
+        }
+        //模拟异步D
+        function D(value) {
+            var dtd = $.Deferred(); //创建
+            setTimeout(function() {
+                dtd.resolve(value + 4)
+            }, 500)
+            return dtd;
+        }
+        //模拟异步E
+        function E(value) {
+            var dtd = $.Deferred(); //创建
+            setTimeout(function() {
+                dtd.resolve(value + 5)
+            }, 1000)
+            return dtd;
+        }
+
+        C()
+            .then(function(data) {
+                return D(data)
+            })
+            .then(function(data) {
+                return E(data)
+            })
+            .then(function(data) {
+                $(".container").html("Deferred异步处理:" + data)
+            })
+    })
+    </script>
 </body>
 
 </html>
