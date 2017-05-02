@@ -4,41 +4,68 @@
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <title>圣诞主题</title>
-    <script src="observer.js"></script>
+    <link rel='stylesheet' href='common.css' />
 </head>
 
 <body>
-    <button>点击触发page任务</button>
-    <button>点击取消page任务</button>
-    <script type="text/javascript">
-    //观察者
-    var observer = new Observer();
-
-    //page函数
-    //模拟运行1秒的一个函数
-    function page() {
-        setTimeout(function() {
-            //发布一个完成的时间
-            observer.publish("compelte")
-        }, 1000)
-    }
-
-    //订阅一个完成的时间
-    observer.subscribe("compelte", function() {
-        alert("page任务完成")
-    })
-
-    //触发任务
-    document.querySelectorAll("button")[0].addEventListener("click", function() {
-        page();
-    }, false)
-
-    //取消任务
-    document.querySelectorAll("button")[1].addEventListener("click", function() {
-        observer.unsubscribe("compelte")
-        alert("注销了订阅了compelte事件")
-    }, false)
-    </script>
+    <section class="container">
+        <!-- 第一幅画面 -->
+        <section class="page-a bg-adaptive">
+        </section>
+        <!-- 第二幅画面 -->
+        <section class="page-b bg-adaptive">
+        </section>
+        <!-- 第三幅画面 -->
+        <section class="page-c bg-adaptive">
+        </section>
+    </section>
+    选择页面：
+    <select id="page">
+        <option value="page-a" selected="">1</option>
+        <option value="page-b">2</option>
+        <option value="page-c">3</option>
+    </select>
 </body>
+<script type="text/javascript">
+
+var doc = document;
+/**
+ * 针对content中的html文本框
+ * 增加rem的修改
+ * @param  {[type]} doc [description]
+ * @param  {[type]} win [description]
+ * @return {[type]}     [description]
+ */
+var docEl = doc.documentElement,
+    resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+    recalc = function() {
+        //自适应设置容器高度
+        var container = document.querySelector(".container")
+            //原始比例
+        var proportion = 900 / 1440;
+        container.style.height = container.clientWidth * proportion + "px";
+    };
+window.addEventListener(resizeEvt, recalc, false);
+doc.addEventListener('DOMContentLoaded', recalc, false);
+
+
+
+/**
+ * 下拉选择页面
+ * @type {[type]}
+ */
+var page = document.querySelector("#page");
+
+
+//层级
+var index = 10;
+//切换切换
+page.addEventListener("change",function(e){
+    //页面元素
+    var pageElement = document.querySelector("." + e.target.value)
+    pageElement.style.zIndex = ++index;
+},false)
+
+</script>
 
 </html>
