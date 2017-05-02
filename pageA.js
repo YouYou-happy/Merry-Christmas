@@ -1,4 +1,10 @@
+function pageA(callback) {
 
-function pageA (argument) {
-       alert("页面C")
+    //模拟执行时间
+	setTimeout(function() {
+
+		callback()
+
+	}, 2000)
+
 }

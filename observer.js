@@ -69,5 +69,4 @@ var Observer = (function(slice) {
         this.one = one;
         return this;
     };
-    
 })([].slice);
