@@ -9,105 +9,54 @@
     z-index: 5;
 }
 
+
 /**
- * 圣诞树
- * animation: name duration timing-function delay iteration-count direction;
+ * 圣诞男孩
  */
 
-.tree {
-    width: 2.71rem;
-    height: 4.24rem;
-    z-index: 15;
-    position: absolute;
-    bottom: 0;
-    left: 1rem;
-    background-image: url(http://img.mukewang.com/565d07d30001c97605420424.png);
-    background-size: 200% 100%;
-    -webkit-animation: treeAnim 1s steps(2) infinite;
-    -moz-animation: treeAnim 1s steps(2) infinite;
+.chs-boy {
+    width           : 5rem;
+    height          : 1.5rem;
+    position        : absolute;
+    z-index         : 3;
+    top             : .1rem;
+    right           : -3rem;
+    transform       : scale(0.1);
+    background      : url(http://img.mukewang.com/565d07490001365329660269.png) -300% -100%;
+    background-size : 400% 100%;
 }
 
-@-webkit-keyframes treeAnim {
-    0% {
-        background-position: 0% 100%;
-    }
-    100% {
-        background-position: -200% 100%;
-    }
-}
-
-@-moz-keyframes treeAnim {
-    0% {
-        background-position: 0% 100%;
-    }
-    100% {
-        background-position: -200% 100%;
-    }
-}
-/*月亮*/
-
-.moon {
-    background: #FCF0BC;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
-    box-shadow: 0 0 1.5rem #FCF0BC;
-    position: absolute;
-    left: 3.3rem;
-    top: .8rem;
-    -webkit-animation: nucleus 2s infinite linear;
-    -moz-animation: nucleus 2s infinite linear;
-}
 /**
- * 光晕效果
+ * 男孩走路动作
  */
 
-@-webkit-keyframes nucleus {
+.chs-boy-deer {
+    -webkit-animation:chsBoyDeer 0.75s steps(3,end) infinite;
+    -moz-animation:chsBoyDeer 0.75s steps(3,end) infinite;
+}
+
+@-webkit-keyframes chsBoyDeer {
     0% {
-        box-shadow: 0 0 0 transparent;
-    }
-    50% {
-        box-shadow: 0 0 1rem #FCF0BC;
+        background-position: -0% 100%;
     }
     100% {
-        box-shadow: 0 0 0 transparent;
+        background-position: -300% 100%;
     }
 }
-
-@-moz-keyframes nucleus {
+@-moz-keyframes chsBoyDeer {
     0% {
-        box-shadow: 0 0 0 transparent;
-    }
-    50% {
-        box-shadow: 0 0 1rem #FCF0BC;
+        background-position: -0% 100%;
     }
     100% {
-        box-shadow: 0 0 0 transparent;
+        background-position: -300% 100%;
     }
 }
 
 
-/*云*/
-.cloudy {
-    background: #60768D;
-    border-radius: 50%;
-    box-shadow: #60768D 1.2rem -0.2rem 0 -0.1rem, #60768D 0.5rem -0.5rem, #60768D 0.8rem 0.2rem,#60768D 1.5rem 0.2rem 0 -0.2rem;
-    height: 1rem;
-    width: 1rem;
-    position: absolute;
-    left: .5rem;
-    top: 1.8rem;
-    z-index: 5;
-    -webkit-animation: cloudy 5s ease-in-out infinite;
-    -moz-animation: cloudy 5s ease-in-out infinite;
-}
-@-webkit-keyframes cloudy {
-    50% {
-        -webkit-transform: translateY(-0.1rem);
-    }
-}
-@-moz-keyframes cloudy {
-    50% {
-        -moz-transform: translateY(-0.1rem);
-    }
+/**
+ * 人物停止
+ */
+
+.boy-stop-animate {
+    -webkit-animation-play-state: paused;
 }
