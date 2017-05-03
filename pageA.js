@@ -1,62 +1,80 @@
 /**
- * 背景布置
+ * 第一副场景页面
+ * @param  {[type]} argument [description]
+ * @return {[type]}          [description]
  */
-.container .page-a {
-    width  : 100%;
-    height : 100%;
-    background-image: url("http://img.mukewang.com/565d07770001790814410901.png");
-    position: absolute;
-    z-index: 5;
+function pageA(element) {
+    //根元素
+    this.$root = element;
+    //小男孩
+    this.$boy = element.find(".chs-boy");
+    //窗户
+    this.$window = element.find(".window");    
+    this.$leftWin  = this.$window.find(".window-left")
+    this.$rightWin = this.$window.find(".window-right")
+    //运行动画
+    this.run();
+}
+
+/**
+ * 开窗
+ * @return {[type]} [description]
+ */
+pageA.prototype.openWindow = function(callback) {
+    var count = 1;
+    var complete = function() {
+        ++count
+        if (count === 2) {
+            callback && callback();
+        }
+    }
+    var bind = function(data) {
+        data.one("transitionend webkitTransitionEnd", function(event) {
+            data.removeClass("window-transition")
+            complete()
+        })
+    }
+    bind(this.$leftWin.addClass("window-transition").addClass("hover"))
+    bind(this.$rightWin.addClass("window-transition").addClass("hover"))
 }
 
 
 /**
- * 圣诞男孩
+ * 运行下一个动画
+ * @return {Function} [description]
  */
-
-.chs-boy {
-    width           : 5rem;
-    height          : 1.5rem;
-    position        : absolute;
-    z-index         : 3;
-    top             : .1rem;
-    right           : -3rem;
-    transform       : scale(0.1);
-    background      : url(http://img.mukewang.com/565d07490001365329660269.png) -300% -100%;
-    background-size : 400% 100%;
-}
-
-/**
- * 男孩走路动作
- */
-
-.chs-boy-deer {
-    -webkit-animation:chsBoyDeer 0.75s steps(3,end) infinite;
-    -moz-animation:chsBoyDeer 0.75s steps(3,end) infinite;
-}
-
-@-webkit-keyframes chsBoyDeer {
-    0% {
-        background-position: -0% 100%;
-    }
-    100% {
-        background-position: -300% 100%;
-    }
-}
-@-moz-keyframes chsBoyDeer {
-    0% {
-        background-position: -0% 100%;
-    }
-    100% {
-        background-position: -300% 100%;
-    }
+pageA.prototype.next = function(options) {
+    var dfd = $.Deferred();
+    this.$boy.transition(options.style, options.time, "linear", function() {
+        dfd.resolve()
+    });
+    return dfd;
 }
 
 
 /**
- * 人物停止
+ * 停止走路
+ * @return {[type]} [description]
  */
+pageA.prototype.stopWalk = function() {
+    this.$boy.removeClass("chs-boy-deer")
+}
 
-.boy-stop-animate {
-    -webkit-animation-play-state: paused;
+/**
+ * 路径
+ * @return {[type]} [description]
+ */
+pageA.prototype.run = function(callback) {
+    var that = this;
+    var next = function() {
+        return this.next.apply(this, arguments)
+    }.bind(this)
+
+    next({})
+        .then(function() {
+            // that.stopWalk();
+            that.openWindow(function() {
+                alert("窗户已打开")
+            });
+        })    
 }
