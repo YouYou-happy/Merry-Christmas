@@ -9,13 +9,15 @@
  */
 var Christmas = function() {
     //页面容器元素
-    var $pageA = $(".page-a");
+    var $pageB = $(".page-b");
+    //构建第二个场景页面对象
+    new pageB($pageB);
+};
 
-    //构建第一个场景页面对象
-    new pageA($pageA);
-}; 
 
 $(function() {
-    //圣诞主题效果，开始
-    $("button").on("click",function(){Christmas()})
+    $("button").on("click", function() {
+        //圣诞主题效果，开始
+        Christmas()
+    })
 })
