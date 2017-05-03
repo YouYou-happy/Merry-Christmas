@@ -14,7 +14,6 @@ var Christmas = function() {
     new pageB($pageB);
 };
 
-
 $(function() {
     $("button").on("click", function() {
         //圣诞主题效果，开始
