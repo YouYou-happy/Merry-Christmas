@@ -15,8 +15,5 @@ var Christmas = function() {
 };
 
 $(function() {
-    $("button").on("click", function() {
-        //圣诞主题效果，开始
-        Christmas()
-    })
+    Christmas();
 })
