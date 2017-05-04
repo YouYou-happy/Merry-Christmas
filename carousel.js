@@ -76,9 +76,7 @@ function Carousel(carousel, options) {
      * @return {[type]}        [description]
      */
     function createStr(imgUrl) {
-        var str = '<figure style="transform:rotateY({0}deg) translateZ({1}) scaleY(.9);position:absolute;">'
-                     + '<img src="{2}" style="width:100%;height:100%;">'
-                 + '</figure>';
+        var str = '<figure style="transform:rotateY({0}deg) translateZ({1}) scaleY(.9);position:absolute;">' + '<img src="{2}" style="width:100%;height:100%;">' + '</figure>';
 
         return String.format(str,
             start,
@@ -104,7 +102,8 @@ function Carousel(carousel, options) {
         //容器
         $spinner.css({
             "width": "4rem",
-            "transform-style": "preserve-3d"
+            "transform-style": "preserve-3d",
+            "transition": "1s"
         })
     }
 
@@ -145,20 +144,55 @@ function Carousel(carousel, options) {
         //600
         angle = (count - 1) * rotate + 360
         $spinner
-            .css({
-                "transform": "rotateY(-" + angle + "deg)",
-                "transition":"1s"
-            })
-            .css({
-                "-moz-transform": "rotateY(-" + angle + "deg)",
-                "-moz-transition":"1s"
-            })
+            .css("-moz-transform", "rotateY(-" + angle + "deg)")
+            .css("transform", "rotateY(-" + angle + "deg)")
             .one("transitionend webkitTransitionend", function() {
-                //去掉transition保留在样式上
-                //照成的缩放元素会有动画变化
-                $spinner.css("transition","")
-                $spinner.css("-moz-transition","")
-                alert("旋转完成")
+               callback()
             })
     }
+
+    /**
+     * 视频播放
+     * @param  {[type]} index   [description]
+     * @param  {[type]} element [description]
+     * @return {[type]}         [description]
+     */
+    this.palyVideo = function() {
+        //索引从0开始
+        var index = currIndex 
+
+        var element = element || $contentElements.eq(index)
+
+        /**
+         * vide标签
+         * @type {[type]}
+         */
+        var $video = $('<video preload="auto"  class="bounceIn" style="width:50%;height:50%;position:absolute;left:30%;top:35%;"></video>');
+
+        $video.css({
+            "position": "absolute",
+            "z-index": "999"
+        })
+
+        //地址
+        $video.attr('src', options.videoUrls[index]);
+
+        //播放
+        
+          $video.on("loadeddata", function() {
+            $video[0].play()
+        })
+        //停止
+        $video.on("ended", function() {
+            $video[0].pause()
+            //退出效果
+            $video.addClass("bounceOut").one("animationend webkitAnimationEnd", function() {
+                $video.remove();
+            })
+        })
+
+        $carousel.after($video)
+    }
+
+
 }
