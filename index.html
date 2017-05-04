@@ -6,8 +6,6 @@
     <title>圣诞主题</title>
     <link rel='stylesheet' href='common.css' />
     <link rel="stylesheet" type="text/css" href="pageC.css">
-    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.js"></script>
-    <script type="text/javascript" src="snowflake.js"></script>
 </head>
 
 <body>
@@ -29,11 +27,12 @@
                     <div class="window-right hover"></div>
                 </div>
             </div>
-            <!-- 雪花 -->
-            <canvas id="snowflake"></canvas>
         </section>
+        <!-- 雪花 -->
+        <canvas id="snowflake"></canvas>
     </section>
     <script type="text/javascript">
+    var config = {};
     //rem设置
     (function(doc, win) {
         var docEl = doc.documentElement,
@@ -44,11 +43,15 @@
                 docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
                 //宽与高度
                 document.body.style.height = clientWidth * (900 / 1440) + "px"
+                config.clientWidth = clientWidth;
+                config.clientHeight =  clientWidth * (900 / 1440)
             };
         win.addEventListener(resizeEvt, recalc, false);
         doc.addEventListener('DOMContentLoaded', recalc, false);
     })(document, window);
     </script>
+    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.js"></script>
+    <script type="text/javascript" src="snowflake.js"></script>
 </body>
 
 </html>
